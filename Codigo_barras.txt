@@ -1,0 +1,36 @@
+// Barras habilidades
+const spans = document.querySelectorAll('.progress-bar span');
+
+/* Detectar el scrolling del mouse para aplicar la animación de la barra
+window.onscroll = function(){
+    efectoHabilidades();
+}*/
+
+function efectoHabilidades(){
+    // Cantidad de píxeles que se muestran antes de la barra de habilidades
+    const offset = 100;
+
+    // Iterar a través de las barras de habilidades
+    spans.forEach((span) => {
+        const spanTop = span.parentNode.offsetTop; // Posición de la barra en relación con la parte superior de la página
+        const windowHeight = window.innerHeight; // Altura de la ventana del navegador
+        const scrollY = window.scrollY || window.pageYOffset; // Posición actual del scroll en la página
+        const isVisible = spanTop - offset < windowHeight + scrollY; // Determinar si la barra es visible en la pantalla
+
+        if (isVisible) {
+            const limit = parseInt(span.dataset.width); // Obtener el límite de la animación a partir de data-width
+            let current = 0;
+
+            const interval = setInterval(() => {
+                current++;
+                if (current > limit) {
+                    clearInterval(interval);
+                } else {
+                    span.style.width = current + '%';
+                    span.innerHTML = current + '%';
+                }
+            }, 50); // Intervalo de tiempo en milisegundos entre cada actualización
+        }
+    });
+}
+
